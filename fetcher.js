@@ -32,8 +32,25 @@
 const request = require('request');
 const fs = require('fs');
 
-request('https://www.example.edu/', (error, response, body) => {
-  let filePathName = './index.html'
+const inputs = process.argv.slice(2);
+
+if (inputs.length !== 2) {
+  console.log('\nError - Input Limit Exceeded:\nPlease input a valid URL and file path\ne.g. > node fetcher.js node fetcher.js http://www.example.edu/ ./index.html\n');
+}
+
+let url = '';
+let filePathName = '';
+
+for (let i = 0; i < 2; i++) {
+  if (i === 0) {
+    url += inputs[i];
+  }
+  if (i === 1) {
+    filePathName += inputs[i];
+  }
+}
+
+request(url, (error, response, body) => {
 
   fs.writeFile(filePathName, body, error => {
     /*if (error) {
